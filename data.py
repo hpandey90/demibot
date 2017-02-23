@@ -38,8 +38,8 @@ def get_conversations():
     1. [questions]
     2. [answers]
 '''
-def gather_dataset(convs, id2line):
-    return questions,answers
+#def gather_dataset(convs, id2line):
+    #return questions,answers
 
 
 def gather_dataset(convs, id2line):
