@@ -42,6 +42,20 @@ def gather_dataset(convs, id2line):
     return questions,answers
 
 
+def gather_dataset(convs, id2line):
+    questions = []; answers = []
+
+    for conv in convs:
+        if len(conv) %2 != 0:
+            conv = conv[:-1]
+        for i in range(len(conv)):
+            if i%2 == 0:
+                questions.append(id2line[conv[i]])
+            else:
+                answers.append(id2line[conv[i]])
+
+    return questions, answers
+
 def process_data():
 
     id2line = get_id2line()
