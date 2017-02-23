@@ -1,10 +1,10 @@
 DemiBot : UF Chat Bot
 
-//Overview
+#Overview
 Chat bot using RNN and word2vec
 
-//Installation
+#Installation
 Tensorflow 0.12, python3.5
 
-//Dataset
+#Dataset
 Cornell movie corpus
