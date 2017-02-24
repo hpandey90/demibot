@@ -11,6 +11,11 @@ import numpy as np
     2. Create a dictionary with ( key = line_id, value = text )
 '''
 def get_id2line():
+    lines = open('./data/raw_data/movie_lines.txt', encoding='utf-8', errors ='ignore').read().split('/n')
+    id2line = {}
+    for line in lines:
+        _line = line.split("+++$+++")
+        id2line[_line[0]] = _line[4]
     return id2line
 
 
@@ -19,6 +24,11 @@ def get_id2line():
     2. Create a list of [list of line_id's]
 '''
 def get_conversations():
+    conv = open('./data/raw_data/movie_conversations.txt', encoding='utf-8', errors ='ignore').read().split('/n')
+    convs = []
+    for line in conv[:-1]:
+        _line = line.split(' +++$+++ ')[-1][1:-1].replace("'","").replace(" ","")
+        convs.append(_line.split(','))
     return convs
 
 
