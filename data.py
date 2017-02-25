@@ -1,5 +1,11 @@
 UNK = 'unk'
 VOCAB_SIZE = 8000
+MAXQ =  25
+MINQ =  2
+MAXA =  25
+MINA =  2
+
+EN_WHITELIST = '0123456789abcdefghijklmnopqrstuvwxyz ' # space included
 
 from collections import defaultdict
 import numpy as np
@@ -14,7 +20,7 @@ def get_id2line():
     lines = open('./data/raw_data/movie_lines.txt', encoding='utf-8', errors ='ignore').read().split('\n')
     id2line = {}
     for line in lines:
-        _line = line.split("+++$+++")
+        _line = line.split(' +++$+++ ')
         if len(_line) == 5:
             id2line[_line[0]] = _line[4]
     return id2line
@@ -56,6 +62,33 @@ def gather_dataset(convs, id2line):
 
     return questions, answers
 
+
+def filter_line(line,whitelist):
+    return ''.join([ ch for ch in line if ch in whitelist ])
+
+def filter_data(qseq,aseq):
+    filtered_q, filtered_a =[], []
+    raw_data_len = len(qseq)
+
+    assert len(qseq) == len(aseq)
+
+    for i in range(raw_data_len):
+        qlen,alen = len(qseq[i].split(' ')), len(aseq[i].split(' '))
+        if qlen >= MINQ and qlen <= MAXQ:
+            if alen >= MINA and alen <= MAXA:
+                filtered_q.append(qseq[i])
+                filtered_a.append(aseq[i])
+
+    filt_data_len = len(filtered_q)
+    filtered = int((raw_data_len - filt_data_len)*100/raw_data_len)
+    print(str(filtered) + '% filtered from original data')
+
+    for q,a in zip(filtered_q[141:145], filtered_a[141:145]):
+        print('q : [{0}]; a : [{1}]'.format(q,a))
+
+    return filtered_q,filtered_a
+
+
 def process_data():
 
     id2line = get_id2line()
@@ -70,7 +103,20 @@ def process_data():
     questions = [ line.lower() for line in questions ]
     answers = [ line.lower() for line in answers ]
 
-    print(questions[121:125],answers[121:125])
+
+    #filter unwanted characters
+    questions = [ filter_line(line,EN_WHITELIST) for line in questions ]
+    answers = [ filter_line(line,EN_WHITELIST) for line in answers ]
+
+    #discard long or short sentences
+    que, ans = filter_data(questions,answers)
+
+    print('*filtered conv :')
+    for q,a in zip(que[141:145],ans[141:145]):
+        print('q : [{0}]; a :[{1}]'.format(q,a))
+
+
+    #print(questions[121:125],answers[121:125])
 
 
 if __name__ == '__main__':
