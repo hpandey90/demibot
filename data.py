@@ -1,8 +1,8 @@
 UNK = 'unk'
 VOCAB_SIZE = 8000
-MAXQ =  25
+MAXQ =  50
 MINQ =  2
-MAXA =  25
+MAXA =  50
 MINA =  2
 
 EN_WHITELIST = '0123456789abcdefghijklmnopqrstuvwxyz ' # space included
@@ -83,7 +83,9 @@ def filter_data(qseq,aseq):
     filtered = int((raw_data_len - filt_data_len)*100/raw_data_len)
     print(str(filtered) + '% filtered from original data')
 
-    for q,a in zip(filtered_q[141:145], filtered_a[141:145]):
+    print('*filtered conv :')
+
+    for q,a in zip(filtered_q[147:152], filtered_a[147:152]):
         print('q : [{0}]; a : [{1}]'.format(q,a))
 
     return filtered_q,filtered_a
@@ -94,7 +96,7 @@ def process_data():
     id2line = get_id2line()
     print('>> gathered id2line dictionary.\n')
     convs = get_conversations()
-    print(convs[121:125])
+    print(convs[151:156])
     print('>> gathered conversations.\n')
 
     questions, answers = gather_dataset(convs,id2line)
@@ -103,6 +105,8 @@ def process_data():
     questions = [ line.lower() for line in questions ]
     answers = [ line.lower() for line in answers ]
 
+    for q,a in zip(questions[175:180],answers[175:180]):
+        print('q : [{0}]; a :[{1}]'.format(q,a))
 
     #filter unwanted characters
     questions = [ filter_line(line,EN_WHITELIST) for line in questions ]
@@ -110,11 +114,6 @@ def process_data():
 
     #discard long or short sentences
     que, ans = filter_data(questions,answers)
-
-    print('*filtered conv :')
-    for q,a in zip(que[141:145],ans[141:145]):
-        print('q : [{0}]; a :[{1}]'.format(q,a))
-
 
     #print(questions[121:125],answers[121:125])
 
