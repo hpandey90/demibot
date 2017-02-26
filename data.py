@@ -115,6 +115,15 @@ def process_data():
     #discard long or short sentences
     que, ans = filter_data(questions,answers)
 
+    #seperating words for tokeninzation
+    print('\n>> Segment lines into words')
+    qtokenized = [ [w.strip() for w in wordlist.split(' ') if w] for wordlist in que ]
+    atokenized = [ [w.strip() for w in wordlist.split(' ') if w] for wordlist in ans ]
+    print('\n:: Sample from segmented list of words')
+
+    for q,a in zip(qtokenized[175:180], atokenized[175:180]):
+        print('q : [{0}]; a : [{1}]'.format(q,a))
+
     #print(questions[121:125],answers[121:125])
 
 
