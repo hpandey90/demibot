@@ -83,7 +83,7 @@ def filter_data(qseq,aseq):
     filtered = int((raw_data_len - filt_data_len)*100/raw_data_len)
     print(str(filtered) + '% filtered from original data')
 
-    print('*filtered conv :')
+    print('\n>> :: Sample from filtered conv : \n')
 
     for q,a in zip(filtered_q[147:152], filtered_a[147:152]):
         print('q : [{0}]; a : [{1}]'.format(q,a))
@@ -108,6 +108,7 @@ def process_data():
     for q,a in zip(questions[175:180],answers[175:180]):
         print('q : [{0}]; a :[{1}]'.format(q,a))
 
+    print('\n')
     #filter unwanted characters
     questions = [ filter_line(line,EN_WHITELIST) for line in questions ]
     answers = [ filter_line(line,EN_WHITELIST) for line in answers ]
