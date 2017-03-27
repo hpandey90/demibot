@@ -143,8 +143,7 @@ def zero_pad(qtokenized, atokenized, w2idx):
         #print(len(idx_a[i]), len(a_indices))
         idx_q[i] = np.array(q_indices)
         idx_a[i] = np.array(a_indices)
-
-return idx_q, idx_a
+    return idx_q, idx_a
 
 def pad_seq(seq, lookup, maxlen):
     indices = []
@@ -153,7 +152,7 @@ def pad_seq(seq, lookup, maxlen):
             indices.append(lookup[word])
         else:
             indices.append(lookup[UNK])
-return indices + [0]*(maxlen - len(seq))
+    return indices + [0]*(maxlen - len(seq))
 
 def process_data():
 
@@ -238,4 +237,4 @@ def load_data(PATH=''):
     # read numpy arrays
     idx_q = np.load(PATH + 'idx_q.npy')
     idx_a = np.load(PATH + 'idx_a.npy')
-return metadata, idx_q, idx_a
+    return metadata, idx_q, idx_a
