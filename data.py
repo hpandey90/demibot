@@ -10,7 +10,7 @@ EN_WHITELIST = '0123456789abcdefghijklmnopqrstuvwxyz ' # space included
 from collections import defaultdict
 import numpy as np
 
-
+import nltk
 
 '''
     1. Read from 'movie-lines.txt'
