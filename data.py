@@ -11,6 +11,8 @@ from collections import defaultdict
 import numpy as np
 
 import nltk
+import itertools
+import pickle
 
 '''
     1. Read from 'movie-lines.txt'
