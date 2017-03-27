@@ -224,7 +224,7 @@ def process_data():
     print('Dataset count : ' + str(idx_q.shape[0]))
 
 
-    print '>> gathered questions and answers.\n'
+    print ('>> gathered questions and answers.\n')
     prepare_seq2seq_files(questions,answers)
 
 
