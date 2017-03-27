@@ -195,6 +195,9 @@ def process_data():
 
     #print(questions[121:125],answers[121:125])
 
+    print('\n >> Zero Padding')
+    idx_q, idx_a = zero_pad(qtokenized, atokenized, w2idx)
+    
     print('\n >> Save numpy arrays to disk')
     # save them
     np.save('idx_q.npy', idx_q)
