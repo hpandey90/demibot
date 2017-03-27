@@ -127,6 +127,29 @@ def index_(tokenized_sentences, vocab_size):
     word2index = dict([(w,i) for i,w in enumerate(index2word)] )
     return index2word, word2index, freq_dist
 
+def filter_unk(qtokenized, atokenized, w2idx):
+    data_len = len(qtokenized)
+
+    filtered_q, filtered_a = [], []
+
+    for qline, aline in zip(qtokenized, atokenized):
+        unk_count_q = len([ w for w in qline if w not in w2idx ])
+        unk_count_a = len([ w for w in aline if w not in w2idx ])
+        if unk_count_a <= 2:
+            if unk_count_q > 0:
+                if unk_count_q/len(qline) > 0.2:
+                    pass
+            filtered_q.append(qline)
+            filtered_a.append(aline)
+
+    # print the fraction of the original data, filtered
+    filt_data_len = len(filtered_q)
+    filtered = int((data_len - filt_data_len)*100/data_len)
+    print(str(filtered) + '% filtered from original data')
+
+    return filtered_q, filtered_a
+
+
 def zero_pad(qtokenized, atokenized, w2idx):
     # num of rows
     data_len = len(qtokenized)
@@ -192,12 +215,14 @@ def process_data():
     print('\n >> Index words')
     idx2w, w2idx, freq_dist = index_( qtokenized + atokenized, vocab_size=VOCAB_SIZE)
 
-
-    #print(questions[121:125],answers[121:125])
+    # filter out sentences with too many unknowns
+    print('\n >> Filter Unknowns')
+    qtokenized, atokenized = filter_unk(qtokenized, atokenized, w2idx)
+    print('\n Final dataset len : ' + str(len(qtokenized)))
 
     print('\n >> Zero Padding')
     idx_q, idx_a = zero_pad(qtokenized, atokenized, w2idx)
-    
+
     print('\n >> Save numpy arrays to disk')
     # save them
     np.save('idx_q.npy', idx_q)
