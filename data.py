@@ -178,6 +178,9 @@ def process_data():
     for q,a in zip(qtokenized[175:180], atokenized[175:180]):
         print('q : [{0}]; a : [{1}]'.format(q,a))
 
+    print('\n >> Zero Padding')
+    idx_q, idx_a = zero_pad(qtokenized, atokenized, w2idx)
+    
     print('\n >> Save numpy arrays to disk')
     # save them
     np.save('idx_q.npy', idx_q)
