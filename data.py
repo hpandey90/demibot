@@ -153,7 +153,8 @@ def process_data():
         print('q : [{0}]; a : [{1}]'.format(q,a))
 
     #print(questions[121:125],answers[121:125])
-
+    print('\n >> Zero Padding')
+    idx_q, idx_a = zero_pad(qtokenized, atokenized, w2idx)
 
 if __name__ == '__main__':
     process_data()
