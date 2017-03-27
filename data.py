@@ -109,6 +109,15 @@ def zero_pad(qtokenized, atokenized, w2idx):
 
 return idx_q, idx_a
 
+def pad_seq(seq, lookup, maxlen):
+    indices = []
+    for word in seq:
+        if word in lookup:
+            indices.append(lookup[word])
+        else:
+            indices.append(lookup[UNK])
+return indices + [0]*(maxlen - len(seq))
+
 def process_data():
 
     id2line = get_id2line()
