@@ -116,6 +116,33 @@ def filter_data(qseq,aseq):
 
     return filtered_q,filtered_a
 
+def zero_pad(qtokenized, atokenized, w2idx):
+    # num of rows
+    data_len = len(qtokenized)
+
+    # numpy arrays to store indices
+    idx_q = np.zeros([data_len, limit['maxq']], dtype=np.int32) 
+    idx_a = np.zeros([data_len, limit['maxa']], dtype=np.int32)
+
+    for i in range(data_len):
+        q_indices = pad_seq(qtokenized[i], w2idx, limit['maxq'])
+        a_indices = pad_seq(atokenized[i], w2idx, limit['maxa'])
+
+        #print(len(idx_q[i]), len(q_indices))
+        #print(len(idx_a[i]), len(a_indices))
+        idx_q[i] = np.array(q_indices)
+        idx_a[i] = np.array(a_indices)
+
+return idx_q, idx_a
+
+def pad_seq(seq, lookup, maxlen):
+    indices = []
+    for word in seq:
+        if word in lookup:
+            indices.append(lookup[word])
+        else:
+            indices.append(lookup[UNK])
+return indices + [0]*(maxlen - len(seq))
 
 def process_data():
 
@@ -183,3 +210,12 @@ def process_data():
 
 if __name__ == '__main__':
     process_data()
+    
+def load_data(PATH=''):
+    # read data control dictionaries
+    with open(PATH + 'metadata.pkl', 'rb') as f:
+        metadata = pickle.load(f)
+    # read numpy arrays
+    idx_q = np.load(PATH + 'idx_q.npy')
+    idx_a = np.load(PATH + 'idx_a.npy')
+return metadata, idx_q, idx_a
