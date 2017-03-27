@@ -1,9 +1,11 @@
 UNK = 'unk'
 VOCAB_SIZE = 8000
-MAXQ =  50
-MINQ =  2
-MAXA =  50
-MINA =  2
+limit = {
+        'maxq' : 25,
+        'minq' : 2,
+        'maxa' : 25,
+        'mina' : 2
+        }
 
 EN_WHITELIST = '0123456789abcdefghijklmnopqrstuvwxyz ' # space included
 
@@ -11,7 +13,10 @@ from collections import defaultdict
 import numpy as np
 
 import nltk
+import itertools
 
+import pickle
+import random
 '''
     1. Read from 'movie-lines.txt'
     2. Create a dictionary with ( key = line_id, value = text )
@@ -100,8 +105,8 @@ def filter_data(qseq,aseq):
 
     for i in range(raw_data_len):
         qlen,alen = len(qseq[i].split(' ')), len(aseq[i].split(' '))
-        if qlen >= MINQ and qlen <= MAXQ:
-            if alen >= MINA and alen <= MAXA:
+        if qlen >= limit['minq'] and qlen <= limit['maxq']:
+            if alen >= limit['mina'] and alen <= limit['maxa']:
                 filtered_q.append(qseq[i])
                 filtered_a.append(aseq[i])
 
