@@ -62,6 +62,32 @@ def gather_dataset(convs, id2line):
 
     return questions, answers
 
+def prepare_seq2seq_files(questions, answers, path='',TESTSET_SIZE = 30000):
+
+    # open files
+    train_enc = open(path + 'train.enc','w')
+    train_dec = open(path + 'train.dec','w')
+    test_enc  = open(path + 'test.enc', 'w')
+    test_dec  = open(path + 'test.dec', 'w')
+
+    # choose 30,000 (TESTSET_SIZE) items to put into testset
+    test_ids = random.sample([i for i in range(len(questions))],TESTSET_SIZE)
+
+    for i in range(len(questions)):
+        if i in test_ids:
+            test_enc.write(questions[i]+'\n')
+            test_dec.write(answers[i]+ '\n' )
+        else:
+            train_enc.write(questions[i]+'\n')
+            train_dec.write(answers[i]+ '\n' )
+        if i%10000 == 0:
+            print('\n>> written {} lines'.format(i))
+
+    # close files
+    train_enc.close()
+    train_dec.close()
+    test_enc.close()
+    test_dec.close()
 
 def filter_line(line,whitelist):
     return ''.join([ ch for ch in line if ch in whitelist ])
@@ -125,7 +151,34 @@ def process_data():
     for q,a in zip(qtokenized[175:180], atokenized[175:180]):
         print('q : [{0}]; a : [{1}]'.format(q,a))
 
-    #print(questions[121:125],answers[121:125])
+    print('\n >> Save numpy arrays to disk')
+    # save them
+    np.save('idx_q.npy', idx_q)
+    np.save('idx_a.npy', idx_a)
+
+    # let us now save the necessary dictionaries
+    metadata = {
+            'w2idx' : w2idx,
+            'idx2w' : idx2w,
+            'limit' : limit,
+            'freq_dist' : freq_dist
+                }
+
+    # write to disk : data control dictionaries
+    with open('metadata.pkl', 'wb') as f:
+        pickle.dump(metadata, f)
+
+    # count of unknowns
+    unk_count = (idx_q == 1).sum() + (idx_a == 1).sum()
+    # count of words
+    word_count = (idx_q > 1).sum() + (idx_a > 1).sum()
+
+    print('% unknown : {0}'.format(100 * (unk_count/word_count)))
+    print('Dataset count : ' + str(idx_q.shape[0]))
+
+
+    print '>> gathered questions and answers.\n'
+    prepare_seq2seq_files(questions,answers)
 
 
 if __name__ == '__main__':
