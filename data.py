@@ -90,6 +90,24 @@ def filter_data(qseq,aseq):
 
     return filtered_q,filtered_a
 
+def zero_pad(qtokenized, atokenized, w2idx):
+    # num of rows
+    data_len = len(qtokenized)
+
+    # numpy arrays to store indices
+    idx_q = np.zeros([data_len, limit['maxq']], dtype=np.int32) 
+    idx_a = np.zeros([data_len, limit['maxa']], dtype=np.int32)
+
+    for i in range(data_len):
+        q_indices = pad_seq(qtokenized[i], w2idx, limit['maxq'])
+        a_indices = pad_seq(atokenized[i], w2idx, limit['maxa'])
+
+        #print(len(idx_q[i]), len(q_indices))
+        #print(len(idx_a[i]), len(a_indices))
+        idx_q[i] = np.array(q_indices)
+        idx_a[i] = np.array(a_indices)
+
+return idx_q, idx_a
 
 def process_data():
 
