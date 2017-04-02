@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-
+import sys
 
 
 class Seq2Seq(object):
@@ -17,3 +17,14 @@ class Seq2Seq(object):
         self.ckpt_path = ckpt_path
         self.epochs = epochs
         self.model_name = model_name
+
+
+
+    #     Training Code Starts
+
+    # getting the feed dictionary
+    def get_feed(self, X, Y, keep_prob):
+        feed_dict = {self.enc_ip[t]: X[t] for t in range(self.xseq_len)}
+        feed_dict.update({self.labels[t]: Y[t] for t in range(self.yseq_len)})
+        feed_dict[self.keep_prob] = keep_prob # dropout prob = 0.5
+        return feed_dict
