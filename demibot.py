@@ -18,9 +18,17 @@ xvocab_size = len(metadata['idx2w'])
 yvocab_size = xvocab_size
 emb_dim = 1024
 sess = model.restore_last_session()
-#quest = input('Hi, how are you?')
-#quest = quest.lower()
-#quest = data.filter_line(quest, EN_WHITELIST)
+quest = input('Hi, how are you?')
+quest = quest.lower()
+quest = data.filter_line(quest, EN_WHITELIST)
 input_ = test_batch_gen.__next__()[0]
 output = model.predict(sess, input_)
 print(output.shape)
+replies = []
+for ii, oi in zip(input_.T, output):
+    q = data_utils.decode(sequence=ii, lookup=metadata['idx2w'], separator=' ')
+    decoded = data_utils.decode(sequence=oi, lookup=metadata['idx2w'], separator=' ').split(' ')
+    if decoded.count('unk') == 0:
+        if decoded not in replies:
+            print('q : [{0}]; a : [{1}]'.format(q, ' '.join(decoded)))
+            replies.append(decoded)
