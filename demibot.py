@@ -21,12 +21,12 @@ emb_dim = 1024
 
 #Model created
 model = seq2seq_wrapper.Seq2Seq(xseq_len=xseq_len,
-                               yseq_len=yseq_len,
-                               xvocab_size=xvocab_size,
-                               yvocab_size=yvocab_size,
-                               ckpt_path='ckpt/',
-                               emb_dim=emb_dim,
-                               num_layers=3
+                                yseq_len=yseq_len,
+                                xvocab_size=xvocab_size,
+                                yvocab_size=yvocab_size,
+                                ckpt_path='ckpt/',
+                                emb_dim=emb_dim,
+                                num_layers=3
                                )
 
 #Batch generation
@@ -41,9 +41,14 @@ train_batch_gen = data_utils.rand_batch_gen(trainX, trainY, batch_size)
 sess = model.restore_last_session()
 
 #TODO take user input for questions
-#quest = input('Hi, how are you?')
-#quest = quest.lower()
-#quest = data.filter_line(quest, EN_WHITELIST)
+'''
+quest = input('Hi, how are you?')
+quest = quest.lower()
+quest = data.filter_line(quest, data.EN_WHITELIST)
+que_tok = [w.strip() for w in quest.split(' ') if w]
+for q in zip(que_tok):
+    print('q : [{0}]'.format(q))
+'''
 
 input_ = test_batch_gen.__next__()[0]
 output = model.predict(sess, input_)
