@@ -47,6 +47,20 @@ class Seq2Seq(object):
             # stack cells together : n layered model here n = 3
             stacked_lstm = tf.contrib.rnn.MultiRNNCell([basic_cell]*num_layers, state_is_tuple=True)
 
+            #Seq2Seq Model starts here
+            with tf.variable_scope('decoder') as scope:
+                # build the seq2seq model
+                #  inputs : encoder, decoder inputs, LSTM cell type, vocabulary sizes, embedding dimensions
+                self.decode_outputs, self.decode_states = tf.contrib.legacy_seq2seq.embedding_rnn_seq2seq(self.enc_ip,self.dec_ip, stacked_lstm,
+                                                    xvocab_size, yvocab_size, emb_dim)
+                # share parameters
+                scope.reuse_variables()
+                # testing model, where output of previous timestep is fed as input
+                #  to the next timestep
+                self.decode_outputs_test, self.decode_states_test = tf.contrib.legacy_seq2seq.embedding_rnn_seq2seq(
+                    self.enc_ip, self.dec_ip, stacked_lstm, xvocab_size, yvocab_size,emb_dim,
+                    feed_previous=True)
+
         sys.stdout.write('<log> Building Graph ')
         # start the graph function here
         __graph__()
