@@ -50,7 +50,6 @@ class Seq2Seq(object):
         feed_dict = self.get_feed(batchX, batchY, keep_prob=1.)
         loss_v, dec_op_v = sess.run([self.loss, self.decode_outputs_test], feed_dict)
         # dec_op_v is a list; also need to transpose 0,1 indices
-        #  (interchange batch_size and timesteps dimensions
         dec_op_v = np.array(dec_op_v).transpose([1,0,2])
         return loss_v, dec_op_v, batchX, batchY
 
@@ -60,4 +59,4 @@ class Seq2Seq(object):
         for i in range(num_batches):
             loss_v, dec_op_v, batchX, batchY = self.eval_step(sess, eval_batch_gen)
             losses.append(loss_v)
-        return np.mean(losses)        
+        return np.mean(losses)
