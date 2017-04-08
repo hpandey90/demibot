@@ -17,10 +17,16 @@ class Seq2Seq(object):
         self.ckpt_path = ckpt_path
         self.epochs = epochs
         self.model_name = model_name
+    
+
+        sys.stdout.write('<log> Building Graph ')
+            # start the graph function here
+            __graph__()
+            sys.stdout.write('</log>')
 
 
 
-    #     Training Code Starts
+    # Training Code Starts
 
     # getting the feed dictionary
     def get_feed(self, X, Y, keep_prob):
