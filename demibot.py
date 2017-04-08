@@ -17,3 +17,4 @@ batch_size = 10
 xvocab_size = len(metadata['idx2w'])
 yvocab_size = xvocab_size
 emb_dim = 1024
+sess = model.restore_last_session()
