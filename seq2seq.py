@@ -89,3 +89,9 @@ class Seq2Seq(object):
     def restore_last_session(self):
             saver = tf.train.Saver()
             sess = tf.Session()
+            ckpt = tf.train.get_checkpoint_state(self.ckpt_path)
+
+            if ckpt and ckpt.model_checkpoint_path:
+                saver.restore(sess, ckpt.model_checkpoint_path)
+            #return session variable to the user to restore last session
+            return sess
