@@ -95,3 +95,4 @@ class Seq2Seq(object):
                 saver.restore(sess, ckpt.model_checkpoint_path)
             #return session variable to the user to restore last session
             return sess
+    def predict(self, sess, X):
