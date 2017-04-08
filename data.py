@@ -67,7 +67,7 @@ def gather_dataset(convs, id2line):
 
     return questions, answers
 
-def prepare_seq2seq_files(questions, answers, path='',TESTSET_SIZE = 30000):
+def prepare_seq2seq_files(questions, answers, path='./Cornell/',TESTSET_SIZE = 30000):
 
     # open files
     train_enc = open(path + 'train.enc','w')
@@ -260,7 +260,7 @@ def process_data():
 if __name__ == '__main__':
     process_data()
 
-def load_data(PATH=''):
+def load_data(PATH='./Cornell/'):
     # read data control dictionaries
     with open(PATH + 'metadata.pkl', 'rb') as f:
         metadata = pickle.load(f)
