@@ -23,6 +23,7 @@ def batch_gen(x, y, batch_size):
     # infinite while
     while True:
     for i in range(0, len(x), batch_size):
+        
 #random batch generator
 def rand_batch_gen(x, y, batch_size):
     while True:
