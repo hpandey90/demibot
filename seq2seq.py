@@ -17,12 +17,30 @@ class Seq2Seq(object):
         self.ckpt_path = ckpt_path
         self.epochs = epochs
         self.model_name = model_name
-    
+
+        #graph building function
+        def __graph__():
+
+            # it is good to reset default graph before creating placeholders
+            tf.reset_default_graph()
+            #  encoder inputs : list of indices of length x sequence length
+            self.enc_ip = [tf.placeholder(shape=[None,],
+                                           dtype=tf.int64,
+                                           name='ei_{}'.format(t)) for t in range(xseq_len)]
+
+            #  labels that represent the real outputs
+            self.labels = [tf.placeholder(shape=[None,],
+                                          dtype=tf.int64,
+                                          name='ei_{}'.format(t)) for t in range(yseq_len)]
+
+            #  decoder inputs : 'GO' + [ y1, y2, ... y_t-1 ] here Go is the separator
+            #  between decoder and encoder
+            self.dec_ip = [ tf.zeros_like(self.enc_ip[0], dtype=tf.int64, name='GO') ] + self.labels[:-1]
 
         sys.stdout.write('<log> Building Graph ')
-            # start the graph function here
-            __graph__()
-            sys.stdout.write('</log>')
+        # start the graph function here
+        __graph__()
+        sys.stdout.write('</log>')
 
 
 
