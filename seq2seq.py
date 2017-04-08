@@ -86,3 +86,6 @@ class Seq2Seq(object):
                 print('Interrupted by user at iteration {}'.format(i))
                 self.session = sess
                 return sess
+    def restore_last_session(self):
+            saver = tf.train.Saver()
+            sess = tf.Session()
