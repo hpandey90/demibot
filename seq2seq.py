@@ -24,9 +24,6 @@ class Seq2Seq(object):
             sys.stdout.write('</log>')
 
 
-
-    # Training Code Starts
-
     # getting the feed dictionary
     def get_feed(self, X, Y, keep_prob):
         feed_dict = {self.enc_ip[t]: X[t] for t in range(self.xseq_len)}
