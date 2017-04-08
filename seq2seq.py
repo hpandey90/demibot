@@ -37,16 +37,17 @@ class Seq2Seq(object):
         batchX, batchY = train_batch_gen.__next__()
         # build feed
         feed_dict = self.get_feed(batchX, batchY, keep_prob=0.5)
+        #get loss function
         _, loss_v = sess.run([self.train_op, self.loss], feed_dict)
         return loss_v
 
+    #used as an intermediate function for eval_batches
     def eval_step(self, sess, eval_batch_gen):
         # get batches
         batchX, batchY = eval_batch_gen.__next__()
         # build feed
         feed_dict = self.get_feed(batchX, batchY, keep_prob=1.)
         loss_v, dec_op_v = sess.run([self.loss, self.decode_outputs_test], feed_dict)
-        # dec_op_v is a list; also need to transpose 0,1 indices
         dec_op_v = np.array(dec_op_v).transpose([1,0,2])
         return loss_v, dec_op_v, batchX, batchY
 
