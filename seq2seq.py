@@ -87,12 +87,15 @@ class Seq2Seq(object):
                 self.session = sess
                 return sess
     def restore_last_session(self):
-            saver = tf.train.Saver()
-            sess = tf.Session()
-            ckpt = tf.train.get_checkpoint_state(self.ckpt_path)
+        saver = tf.train.Saver()
+        sess = tf.Session()
+        ckpt = tf.train.get_checkpoint_state(self.ckpt_path)
 
-            if ckpt and ckpt.model_checkpoint_path:
-                saver.restore(sess, ckpt.model_checkpoint_path)
-            #return session variable to the user to restore last session
-            return sess
+        if ckpt and ckpt.model_checkpoint_path:
+            saver.restore(sess, ckpt.model_checkpoint_path)
+        #return session variable to the user to restore last session
+        return sess
     def predict(self, sess, X):
+        feed_dict = {self.enc_ip[t]: X[t] for t in range(self.xseq_len)}
+        feed_dict[self.keep_prob] = 1.
+        dec_op_v = sess.run(self.decode_outputs_test, feed_dict)
