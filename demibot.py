@@ -18,9 +18,9 @@ xvocab_size = len(metadata['idx2w'])
 yvocab_size = xvocab_size
 emb_dim = 1024
 sess = model.restore_last_session()
-quest = input('Hi, how are you?')
-quest = quest.lower()
-quest = data.filter_line(quest, EN_WHITELIST)
+#quest = input('Hi, how are you?')
+#quest = quest.lower()
+#quest = data.filter_line(quest, EN_WHITELIST)
 input_ = test_batch_gen.__next__()[0]
 output = model.predict(sess, input_)
 print(output.shape)
