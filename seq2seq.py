@@ -57,3 +57,16 @@ class Seq2Seq(object):
             loss_v, dec_op_v, batchX, batchY = self.eval_step(sess, eval_batch_gen)
             losses.append(loss_v)
         return np.mean(losses)
+    def train(self, train_set, valid_set, sess=None ):
+        
+        # we need to save the model periodically
+        saver = tf.train.Saver()
+
+        # if no session is given
+        if not sess:
+            # create a session
+            sess = tf.Session()
+            # init all variables
+            sess.run(tf.global_variables_initializer())
+
+        sys.stdout.write('\n<log> Training started </log>\n')
