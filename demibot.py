@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
+import seq2seq_wrapper
 # preprocessed data
-from datasets.cornell_corpus import data
+import data
 import data_utils
