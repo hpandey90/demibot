@@ -35,7 +35,17 @@ class Seq2Seq(object):
 
             #  decoder inputs : 'GO' + [ y1, y2, ... y_t-1 ] here Go is the separator
             #  between decoder and encoder
-            self.dec_ip = [ tf.zeros_like(self.enc_ip[0], dtype=tf.int64, name='GO') ] + self.labels[:-1]
+            self.dec_ip = [tf.zeros_like(self.enc_ip[0],
+                                         dtype=tf.int64, name='GO')]+self.labels[:-1]
+
+            # Basic LSTM cell wrapped in Dropout Wrapper
+            self.keep_prob = tf.placeholder(tf.float32)
+            # define the basic cell
+            basic_cell = tf.contrib.rnn.DropoutWrapper(
+                tf.contrib.rnn.BasicLSTMCell(emb_dim, state_is_tuple=True),
+                output_keep_prob=self.keep_prob)
+            # stack cells together : n layered model here n = 3
+            stacked_lstm = tf.contrib.rnn.MultiRNNCell([basic_cell]*num_layers, state_is_tuple=True)
 
         sys.stdout.write('<log> Building Graph ')
         # start the graph function here
