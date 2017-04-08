@@ -70,3 +70,19 @@ class Seq2Seq(object):
             sess.run(tf.global_variables_initializer())
 
         sys.stdout.write('\n<log> Training started </log>\n')
+        for i in range(self.epochs):
+            try:
+                self.train_batch(sess, train_set)
+                if i and i% (self.epochs//100) == 0: # TODO : make this tunable by the user
+                    # save model to disk
+                    saver.save(sess, self.ckpt_path + self.model_name + '.ckpt', global_step=i)
+                    # evaluate to get validation loss
+                    val_loss = self.eval_batches(sess, valid_set, 16) # TODO : and this
+                    # print stats
+                    print('\nModel saved to disk at iteration #{}'.format(i))
+                    print('val   loss : {0:.6f}'.format(val_loss))
+                    sys.stdout.flush()
+            except KeyboardInterrupt: # this will most definitely happen, so handle it
+                print('Interrupted by user at iteration {}'.format(i))
+                self.session = sess
+                return sess
