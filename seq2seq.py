@@ -60,6 +60,12 @@ class Seq2Seq(object):
                 self.decode_outputs_test, self.decode_states_test = tf.contrib.legacy_seq2seq.embedding_rnn_seq2seq(
                     self.enc_ip, self.dec_ip, stacked_lstm, xvocab_size, yvocab_size,emb_dim,
                     feed_previous=True)
+            
+            # weighted loss function
+            loss_weights = [ tf.ones_like(label, dtype=tf.float32) for label in self.labels ]
+            self.loss = tf.contrib.legacy_seq2seq.sequence_loss(self.decode_outputs, self.labels, loss_weights, yvocab_size)
+            # train op to minimize the loss
+            self.train_op = tf.train.AdamOptimizer(learning_rate=lr).minimize(self.loss)
 
         sys.stdout.write('<log> Building Graph ')
         # start the graph function here
