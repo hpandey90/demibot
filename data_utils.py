@@ -7,7 +7,7 @@ from random import sample
  split data into train (75%), test (15%) and valid(10%)
     return tuple( (trainX, trainY), (testX,testY), (validX,validY) )
 '''
-def split_dataset(x, y, ratio = [0.7, 0.15, 0.15] ):
+def split_dataset(x, y, ratio = [0.75, 0.15, 0.1] ):
     # number of examples
     data_len = len(x)
     lens = [ int(data_len*item) for item in ratio ]
@@ -18,14 +18,14 @@ def split_dataset(x, y, ratio = [0.7, 0.15, 0.15] ):
 
     return (trainX,trainY), (testX,testY), (validX,validY)
 
-#generate batches from dataset 
+#generate batches from dataset
 def batch_gen(x, y, batch_size):
     # infinite while
     while True:
         for i in range(0, len(x), batch_size):
             if (i+1)*batch_size < len(x):
                 yield x[i : (i+1)*batch_size ].T, y[i : (i+1)*batch_size ].T
-                
+
 #random batch generator
 def rand_batch_gen(x, y, batch_size):
     while True:
