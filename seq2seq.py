@@ -8,7 +8,7 @@ class Seq2Seq(object):
             xvocab_size, yvocab_size,
             emb_dim, num_layers, ckpt_path,
             lr=0.0001,
-            epochs=100, model_name='seq2seq_model'):
+            epochs=100000, model_name='seq2seq_model'):
 
         # attach these arguments to self
         self.xseq_len = xseq_len
@@ -59,7 +59,7 @@ class Seq2Seq(object):
                 self.decode_outputs_test, self.decode_states_test = tf.contrib.legacy_seq2seq.embedding_rnn_seq2seq(
                     self.enc_ip, self.dec_ip, stacked_lstm, xvocab_size, yvocab_size,emb_dim,
                     feed_previous=True)
-            
+
             # weighted loss function
             loss_weights = [ tf.ones_like(label, dtype=tf.float32) for label in self.labels ]
             self.loss = tf.contrib.legacy_seq2seq.sequence_loss(self.decode_outputs, self.labels, loss_weights, yvocab_size)
@@ -106,9 +106,9 @@ class Seq2Seq(object):
             loss_v, dec_op_v, batchX, batchY = self.eval_step(sess, eval_batch_gen)
             losses.append(loss_v)
         return np.mean(losses)
-        
+
     def train(self, train_set, valid_set, sess=None ):
-        
+
         # we need to save the model periodically
         saver = tf.train.Saver()
 
@@ -144,6 +144,7 @@ class Seq2Seq(object):
 
         if ckpt and ckpt.model_checkpoint_path:
             saver.restore(sess, ckpt.model_checkpoint_path)
+            print("\n Previous CheckPoint : "+ckpt.model_checkpoint_path)
         #return session variable to the user to restore last session
         return sess
 
