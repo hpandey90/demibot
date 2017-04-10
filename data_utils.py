@@ -22,9 +22,8 @@ def split_dataset(x, y, ratio = [0.7, 0.15, 0.15] ):
 def batch_gen(x, y, batch_size):
     # infinite while
     while True:
-    for i in range(0, len(x), batch_size):
-
-        if (i+1)*batch_size < len(x):
+        for i in range(0, len(x), batch_size):
+            if (i+1)*batch_size < len(x):
                 yield x[i : (i+1)*batch_size ].T, y[i : (i+1)*batch_size ].T
                 
 #random batch generator
