@@ -135,3 +135,19 @@ def process_data():
     qlines, alines = filter_data(lines)
     print('\nq : {0} ; a : {1}'.format(qlines[60], alines[60]))
     print('\nq : {0} ; a : {1}'.format(qlines[61], alines[61]))
+    
+    # convert list of [lines of text] into list of [list of words ]
+    print('\n>> Segment lines into words')
+    qtokenized = [ wordlist.split(' ') for wordlist in qlines ]
+    atokenized = [ wordlist.split(' ') for wordlist in alines ]
+    print('\n:: Sample from segmented list of words')
+    print('\nq : {0} ; a : {1}'.format(qtokenized[60], atokenized[60]))
+    print('\nq : {0} ; a : {1}'.format(qtokenized[61], atokenized[61]))
+
+
+    # indexing -> idx2w, w2idx : en/ta
+    print('\n >> Index words')
+    idx2w, w2idx, freq_dist = index_( qtokenized + atokenized, vocab_size=VOCAB_SIZE)
+
+    print('\n >> Zero Padding')
+    idx_q, idx_a = zero_pad(qtokenized, atokenized, w2idx)
