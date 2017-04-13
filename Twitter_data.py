@@ -151,3 +151,21 @@ def process_data():
 
     print('\n >> Zero Padding')
     idx_q, idx_a = zero_pad(qtokenized, atokenized, w2idx)
+    
+    print('\n >> Save numpy arrays to disk')
+    # save them
+    np.save('./Twitter/idx_q.npy', idx_q)
+    np.save('./Twitter/idx_a.npy', idx_a)
+
+    # let us now save the necessary dictionaries
+    metadata = {
+            'w2idx' : w2idx,
+            'idx2w' : idx2w,
+            'limit' : limit,
+            'freq_dist' : freq_dist
+                }
+
+    # write to disk : data control dictionaries
+    with open('./Twitter/metadata.pkl', 'wb') as f:
+        pickle.dump(metadata, f)
+
