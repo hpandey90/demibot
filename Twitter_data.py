@@ -125,4 +125,13 @@ def process_data():
 
     print('\n:: Sample from read(p) lines')
     print(lines[121:125])
+    # filter out unnecessary characters
+    print('\n>> Filter lines')
+    lines = [ filter_line(line, EN_WHITELIST) for line in lines ]
+    print(lines[121:125])
 
+    # filter out too long or too short sequences
+    print('\n>> 2nd layer of filtering')
+    qlines, alines = filter_data(lines)
+    print('\nq : {0} ; a : {1}'.format(qlines[60], alines[60]))
+    print('\nq : {0} ; a : {1}'.format(qlines[61], alines[61]))
