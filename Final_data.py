@@ -139,3 +139,8 @@ def filter_data(sequences):
     print(str(filtered) + '% filtered from original data')
 
     return filtered_q, filtered_a
+
+
+def zero_pad(qtokenized, atokenized, w2idx):
+    # num of rows
+    data_len = len(qtokenized)    
