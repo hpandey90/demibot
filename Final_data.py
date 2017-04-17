@@ -118,4 +118,10 @@ def index_(tokenized_sentences, vocab_size):
     index2word = ['_'] + [UNK] + [ x[0] for x in vocab ]
     # word2index
     word2index = dict([(w,i) for i,w in enumerate(index2word)] )
-    return index2word, word2index, freq_dist        
+    return index2word, word2index, freq_dist
+
+
+def filter_data(sequences):
+    filtered_q, filtered_a = [], []
+    raw_data_len = len(sequences)//2
+    print(len(sequences))
