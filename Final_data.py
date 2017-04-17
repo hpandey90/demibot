@@ -106,4 +106,16 @@ def split_line(line):
 
 #Filter according to the white list
 def filter_line(line, whitelist):
-    return ''.join([ ch for ch in line if ch in whitelist ])    
+    return ''.join([ ch for ch in line if ch in whitelist ])
+
+
+def index_(tokenized_sentences, vocab_size):
+    # get frequency distribution
+    freq_dist = nltk.FreqDist(itertools.chain(*tokenized_sentences))
+    # get vocabulary of 'vocab_size' most used words
+    vocab = freq_dist.most_common(vocab_size)
+    # index2word
+    index2word = ['_'] + [UNK] + [ x[0] for x in vocab ]
+    # word2index
+    word2index = dict([(w,i) for i,w in enumerate(index2word)] )
+    return index2word, word2index, freq_dist        
