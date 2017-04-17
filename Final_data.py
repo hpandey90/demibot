@@ -147,4 +147,13 @@ def zero_pad(qtokenized, atokenized, w2idx):
 
     # numpy arrays to store indices
     idx_q = np.zeros([data_len, limit['maxq']], dtype=np.int32)
-    idx_a = np.zeros([data_len, limit['maxa']], dtype=np.int32)    
+    idx_a = np.zeros([data_len, limit['maxa']], dtype=np.int32)
+
+    for i in range(data_len):
+        q_indices = pad_seq(qtokenized[i], w2idx, limit['maxq'])
+        a_indices = pad_seq(atokenized[i], w2idx, limit['maxa'])
+
+        idx_q[i] = np.array(q_indices)
+        idx_a[i] = np.array(a_indices)
+
+    return idx_q, idx_a    
