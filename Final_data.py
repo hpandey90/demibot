@@ -53,3 +53,8 @@ def split_n_create(filename):
                 s = ' '.join([s,line])
             counter = 0
         counter += 1
+
+
+def many_to_one_file():
+   for fl in glob.glob('./dialogs/**/*.txt'):
+       split_n_create(fl)
