@@ -98,3 +98,7 @@ def gather_dataset(convs, id2line):
 # read lines from file returns [list of lines]
 def read_lines(filename):
     return open(filename,encoding='utf-8').read().split('\n')[:-1]
+
+
+def split_line(line):
+    return line.split('.')
