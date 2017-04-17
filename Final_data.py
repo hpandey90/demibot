@@ -58,3 +58,13 @@ def split_n_create(filename):
 def many_to_one_file():
    for fl in glob.glob('./dialogs/**/*.txt'):
        split_n_create(fl)
+
+
+def get_id2line():
+    lines = open('./data/raw_data/Cornell/movie_lines.txt', encoding='utf-8', errors ='ignore').read().split('\n')
+    id2line = {}
+    for line in lines:
+        _line = line.split(' +++$+++ ')
+        if len(_line) == 5:
+            id2line[_line[0]] = _line[4]
+    return id2line
