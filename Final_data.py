@@ -143,4 +143,8 @@ def filter_data(sequences):
 
 def zero_pad(qtokenized, atokenized, w2idx):
     # num of rows
-    data_len = len(qtokenized)    
+    data_len = len(qtokenized)
+
+    # numpy arrays to store indices
+    idx_q = np.zeros([data_len, limit['maxq']], dtype=np.int32)
+    idx_a = np.zeros([data_len, limit['maxa']], dtype=np.int32)    
