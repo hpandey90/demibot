@@ -68,3 +68,12 @@ def get_id2line():
         if len(_line) == 5:
             id2line[_line[0]] = _line[4]
     return id2line
+
+
+def get_conversations():
+    conv = open('./data/raw_data/Cornell/movie_conversations.txt', encoding='utf-8', errors ='ignore').read().split('\n')
+    convs = []
+    for line in conv[:-1]:
+        _line = line.split(' +++$+++ ')[-1][1:-1].replace("'","").replace(" ","")
+        convs.append(_line.split(','))
+    return convs
