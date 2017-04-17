@@ -102,3 +102,8 @@ def read_lines(filename):
 
 def split_line(line):
     return line.split('.')
+
+
+#Filter according to the white list
+def filter_line(line, whitelist):
+    return ''.join([ ch for ch in line if ch in whitelist ])    
