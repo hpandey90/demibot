@@ -125,3 +125,10 @@ def filter_data(sequences):
     filtered_q, filtered_a = [], []
     raw_data_len = len(sequences)//2
     print(len(sequences))
+
+    for i in range(0, len(sequences)-1, 2):
+        qlen, alen = len(sequences[i].split(' ')), len(sequences[i+1].split(' '))
+        if qlen >= limit['minq'] and qlen <= limit['maxq']:
+            if alen >= limit['mina'] and alen <= limit['maxa']:
+                filtered_q.append(sequences[i])
+                filtered_a.append(sequences[i+1])
