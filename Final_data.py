@@ -77,3 +77,19 @@ def get_conversations():
         _line = line.split(' +++$+++ ')[-1][1:-1].replace("'","").replace(" ","")
         convs.append(_line.split(','))
     return convs
+
+
+def gather_dataset(convs, id2line):
+    target = get_file(FILENAME)
+
+    for conv in convs:
+        if len(conv) %2 != 0:
+            conv = conv[:-1]
+        for i in range(len(conv)):
+            if i%2 == 0:
+                target.write(id2line[conv[i]])
+                #questions.append(id2line[conv[i]])
+            else:
+                target.write(id2line[conv[i]])
+                #answers.append(id2line[conv[i]])
+            target.write('\n')
