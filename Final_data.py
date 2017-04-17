@@ -132,3 +132,10 @@ def filter_data(sequences):
             if alen >= limit['mina'] and alen <= limit['maxa']:
                 filtered_q.append(sequences[i])
                 filtered_a.append(sequences[i+1])
+
+    # print the fraction of the original data, filtered
+    filt_data_len = len(filtered_q)
+    filtered = int((raw_data_len - filt_data_len)*100/raw_data_len)
+    print(str(filtered) + '% filtered from original data')
+
+    return filtered_q, filtered_a
