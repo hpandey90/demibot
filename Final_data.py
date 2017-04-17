@@ -93,3 +93,8 @@ def gather_dataset(convs, id2line):
                 target.write(id2line[conv[i]])
                 #answers.append(id2line[conv[i]])
             target.write('\n')
+
+
+# read lines from file returns [list of lines]
+def read_lines(filename):
+    return open(filename,encoding='utf-8').read().split('\n')[:-1]
