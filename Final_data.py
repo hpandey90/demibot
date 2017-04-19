@@ -234,3 +234,6 @@ def load_data(PATH=''):
     with open(PATH + 'metadata.pkl', 'rb') as f:
         metadata = pickle.load(f)
     # read numpy arrays
+    idx_q = np.load(PATH + 'idx_q.npy')
+    idx_a = np.load(PATH + 'idx_a.npy')
+    return metadata, idx_q, idx_a
