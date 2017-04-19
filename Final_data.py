@@ -228,3 +228,9 @@ if __name__ == '__main__':
     many_to_one_file()
     cornell_data_process()
     process_data()
+    
+def load_data(PATH=''):
+    # read data control dictionaries
+    with open(PATH + 'metadata.pkl', 'rb') as f:
+        metadata = pickle.load(f)
+    # read numpy arrays
