@@ -166,3 +166,11 @@ def pad_seq(seq, lookup, maxlen):
         else:
             indices.append(lookup[UNK])
     return indices + [0]*(maxlen - len(seq))
+
+def process_data():
+
+    print('\n>> Read lines from file')
+    lines = read_lines(filename=FILENAME)
+
+    # change to lower case (just for en)
+    lines = [ line.lower() for line in lines ]
