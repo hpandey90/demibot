@@ -174,3 +174,9 @@ def process_data():
 
     # change to lower case (just for en)
     lines = [ line.lower() for line in lines ]
+    print('\n:: Sample from read(p) lines')
+    print(lines[121:125])
+    # filter out unnecessary characters
+    print('\n>> Filter lines')
+    lines = [ filter_line(line, EN_WHITELIST) for line in lines ]
+    print(lines[121:125])
