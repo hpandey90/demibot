@@ -201,3 +201,8 @@ def process_data():
 
     print('\n >> Zero Padding')
     idx_q, idx_a = zero_pad(qtokenized, atokenized, w2idx)
+    
+    print('\n >> Save numpy arrays to disk')
+    # save them
+    np.save('./Final/idx_q.npy', idx_q)
+    np.save('./Final/idx_a.npy', idx_a)
