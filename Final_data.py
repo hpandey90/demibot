@@ -223,3 +223,8 @@ def cornell_data_process():
     id2line = get_id2line()
     convs = get_conversations()
     gather_dataset(convs,id2line)
+    
+if __name__ == '__main__':
+    many_to_one_file()
+    cornell_data_process()
+    process_data()
