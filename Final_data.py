@@ -218,3 +218,8 @@ def process_data():
     # write to disk : data control dictionaries
     with open('./Final/metadata.pkl', 'wb') as f:
         pickle.dump(metadata, f)
+        
+def cornell_data_process():
+    id2line = get_id2line()
+    convs = get_conversations()
+    gather_dataset(convs,id2line)
