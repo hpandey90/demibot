@@ -161,3 +161,8 @@ def zero_pad(qtokenized, atokenized, w2idx):
 def pad_seq(seq, lookup, maxlen):
     indices = []
     for word in seq:
+        if word in lookup:
+            indices.append(lookup[word])
+        else:
+            indices.append(lookup[UNK])
+    return indices + [0]*(maxlen - len(seq))
