@@ -157,3 +157,7 @@ def zero_pad(qtokenized, atokenized, w2idx):
         idx_a[i] = np.array(a_indices)
 
     return idx_q, idx_a    
+#Padding the sequence to max length
+def pad_seq(seq, lookup, maxlen):
+    indices = []
+    for word in seq:
