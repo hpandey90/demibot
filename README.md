@@ -1,4 +1,4 @@
-# DemiBot : Chatter Bot
+# DemiBot : Chatter Bot <img src="logo.ico" align="right" />
 
 ## Synopsis
 
