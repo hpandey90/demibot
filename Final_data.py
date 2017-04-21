@@ -1,5 +1,5 @@
 UNK = 'unk'
-VOCAB_SIZE = 12000
+VOCAB_SIZE = 7000
 limit = {
         'maxq' : 25,
         'minq' : 2,
@@ -10,7 +10,7 @@ limit = {
 
 EN_WHITELIST = '0123456789abcdefghijklmnopqrstuvwxyz ' # space included
 
-FILENAME = 'data/raw_data/twitter/chat.txt'
+FILENAME = 'data/raw_data/Final/chat.txt'
 
 
 import random
@@ -56,7 +56,7 @@ def split_n_create(filename):
 
 
 def many_to_one_file():
-   for fl in glob.glob('./dialogs/**/*.txt'):
+   for fl in glob.glob('./data/raw_data/dialogs/**/*.txt'):
        split_n_create(fl)
 
 
@@ -124,7 +124,7 @@ def index_(tokenized_sentences, vocab_size):
 def filter_data(sequences):
     filtered_q, filtered_a = [], []
     raw_data_len = len(sequences)//2
-    print(len(sequences))
+    #print(len(sequences))
 
     for i in range(0, len(sequences)-1, 2):
         qlen, alen = len(sequences[i].split(' ')), len(sequences[i+1].split(' '))
@@ -156,7 +156,7 @@ def zero_pad(qtokenized, atokenized, w2idx):
         idx_q[i] = np.array(q_indices)
         idx_a[i] = np.array(a_indices)
 
-    return idx_q, idx_a    
+    return idx_q, idx_a
 #Padding the sequence to max length
 def pad_seq(seq, lookup, maxlen):
     indices = []
@@ -180,13 +180,13 @@ def process_data():
     print('\n>> Filter lines')
     lines = [ filter_line(line, EN_WHITELIST) for line in lines ]
     print(lines[121:125])
-    
+
     # filter out too long or too short sequences
     print('\n>> 2nd layer of filtering')
     qlines, alines = filter_data(lines)
     print('\nq : {0} ; a : {1}'.format(qlines[60], alines[60]))
     print('\nq : {0} ; a : {1}'.format(qlines[61], alines[61]))
-    
+
     # convert list of [lines of text] into list of [list of words ]
     print('\n>> Segment lines into words')
     qtokenized = [ wordlist.split(' ') for wordlist in qlines ]
@@ -194,19 +194,19 @@ def process_data():
     print('\n:: Sample from segmented list of words')
     print('\nq : {0} ; a : {1}'.format(qtokenized[60], atokenized[60]))
     print('\nq : {0} ; a : {1}'.format(qtokenized[61], atokenized[61]))
-    
+
     # indexing -> idx2w, w2idx : en/ta
     print('\n >> Index words')
     idx2w, w2idx, freq_dist = index_( qtokenized + atokenized, vocab_size=VOCAB_SIZE)
 
     print('\n >> Zero Padding')
     idx_q, idx_a = zero_pad(qtokenized, atokenized, w2idx)
-    
+
     print('\n >> Save numpy arrays to disk')
     # save them
-    np.save('./Final/idx_q.npy', idx_q)
-    np.save('./Final/idx_a.npy', idx_a)
-    
+    np.save('./Final_META/idx_q.npy', idx_q)
+    np.save('./Final_META/idx_a.npy', idx_a)
+
     # let us now save the necessary dictionaries
     metadata = {
             'w2idx' : w2idx,
@@ -216,19 +216,19 @@ def process_data():
                 }
 
     # write to disk : data control dictionaries
-    with open('./Final/metadata.pkl', 'wb') as f:
+    with open('./Final_META/metadata.pkl', 'wb') as f:
         pickle.dump(metadata, f)
-        
+
 def cornell_data_process():
     id2line = get_id2line()
     convs = get_conversations()
     gather_dataset(convs,id2line)
-    
+
 if __name__ == '__main__':
     many_to_one_file()
     cornell_data_process()
     process_data()
-    
+
 def load_data(PATH=''):
     # read data control dictionaries
     with open(PATH + 'metadata.pkl', 'rb') as f:
