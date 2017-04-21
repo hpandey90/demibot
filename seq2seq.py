@@ -143,9 +143,9 @@ class Seq2Seq(object):
                     saver.save(sess, self.ckpt_path + self.model_name + '.ckpt', global_step=i)
                     # evaluate to get validation loss
                     val_loss,val_perp = self.eval_batches(sess, valid_set, 32) # TODO : and this
-                    #self.xAxis.append(i)
+                    self.xAxis.append(i)
                     self.epochFile.write('{0},'.format(i))
-                    #self.yAxis.append(val_perp)
+                    self.yAxis.append(val_perp)
                     self.perpFile.write('{0:.6f}'.format(val_perp))
                     if self.maxPerp<val_perp:
                         self.maxPerp = val_perp
@@ -155,16 +155,18 @@ class Seq2Seq(object):
                     sys.stdout.flush()
                 else:
                     val_loss,val_perp = self.eval_batches(sess, valid_set, 7)
-                    #self.xAxis.append(i)
+                    self.xAxis.append(i)
                     self.epochFile.write('{0},'.format(i))
-                    #self.yAxis.append(val_perp)
+                    self.yAxis.append(val_perp)
                     self.perpFile.write('{0:.6f}'.format(val_perp))
                     if self.maxPerp<val_perp:
                         self.maxPerp = val_perp
+
             except KeyboardInterrupt: # this will most definitely happen, so handle it
                 print('Interrupted by user at iteration {}'.format(i))
                 self.session = sess
                 return sess
+        #Ploting the graph once training completes
         plt.plot(self.xAxis, self.yAxis)
         plt.axis([1, i, 0, self.maxPerp])
         plt.xlabel('Epochs')
