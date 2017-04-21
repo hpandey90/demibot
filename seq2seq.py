@@ -166,6 +166,7 @@ class Seq2Seq(object):
                 print('Interrupted by user at iteration {}'.format(i))
                 self.session = sess
                 return sess
+
         #Ploting the graph once training completes
         plt.plot(self.xAxis, self.yAxis)
         plt.axis([1, i, 0, self.maxPerp])
@@ -184,6 +185,8 @@ class Seq2Seq(object):
         if ckpt and ckpt.model_checkpoint_path:
             saver.restore(sess, ckpt.model_checkpoint_path)
             print("\n Previous CheckPoint : "+ckpt.model_checkpoint_path)
+        else:
+            return None
         #return session variable to the user to restore last session
         return sess
 
