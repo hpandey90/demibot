@@ -1,6 +1,11 @@
 import tensorflow as tf
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
+import math
+
+epochF = 'epoch.csv'
+perpF = 'perp.csv'
 
 class Seq2Seq(object):
 
@@ -16,6 +21,14 @@ class Seq2Seq(object):
         self.ckpt_path = ckpt_path
         self.epochs = epochs
         self.model_name = model_name
+        self.xAxis = []
+        self.yAxis = []
+        self.lossAxis = []
+        self.maxPerp = 0.0
+        self.maxLoss = 0.0
+
+        self.epochFile = open(epochF,"w", encoding='utf-8', errors='ignore')
+        self.perpFile = open(perpF,"w", encoding='utf-8', errors='ignore')
 
         #graph building function
         def __graph__():
@@ -105,12 +118,14 @@ class Seq2Seq(object):
         for i in range(num_batches):
             loss_v, dec_op_v, batchX, batchY = self.eval_step(sess, eval_batch_gen)
             losses.append(loss_v)
-        return np.mean(losses)
+        val_loss = np.mean(losses)
+        val_perp = 2**val_loss
+        return val_loss,val_perp
 
     def train(self, train_set, valid_set, sess=None ):
 
         # we need to save the model periodically
-        saver = tf.train.Saver()
+        saver = tf.train.Saver(max_to_keep=3)
 
         # if no session is given
         if not sess:
@@ -127,15 +142,40 @@ class Seq2Seq(object):
                     # save model to disk
                     saver.save(sess, self.ckpt_path + self.model_name + '.ckpt', global_step=i)
                     # evaluate to get validation loss
-                    val_loss = self.eval_batches(sess, valid_set, 16) # TODO : and this
+                    val_loss,val_perp = self.eval_batches(sess, valid_set, 32) # TODO : and this
+                    self.xAxis.append(i)
+                    self.epochFile.write('{0},'.format(i))
+                    self.yAxis.append(val_perp)
+                    self.perpFile.write('{0:.6f}'.format(val_perp))
+                    if self.maxPerp<val_perp:
+                        self.maxPerp = val_perp
                     # print stats
                     print('\nModel saved to disk at iteration #{}'.format(i))
                     print('val   loss : {0:.6f}'.format(val_loss))
                     sys.stdout.flush()
+                else:
+                    val_loss,val_perp = self.eval_batches(sess, valid_set, 7)
+                    self.xAxis.append(i)
+                    self.epochFile.write('{0},'.format(i))
+                    self.yAxis.append(val_perp)
+                    self.perpFile.write('{0:.6f}'.format(val_perp))
+                    if self.maxPerp<val_perp:
+                        self.maxPerp = val_perp
+
             except KeyboardInterrupt: # this will most definitely happen, so handle it
                 print('Interrupted by user at iteration {}'.format(i))
                 self.session = sess
                 return sess
+
+        #Ploting the graph once training completes
+        plt.plot(self.xAxis, self.yAxis)
+        plt.axis([1, i, 0, self.maxPerp])
+        plt.xlabel('Epochs')
+        plt.ylabel('Perplexity')
+        plt.title('Plot 1')
+        plt.grid(True)
+        plt.savefig("perplexity.png")
+        plt.show()
 
     def restore_last_session(self):
         saver = tf.train.Saver()
@@ -145,6 +185,8 @@ class Seq2Seq(object):
         if ckpt and ckpt.model_checkpoint_path:
             saver.restore(sess, ckpt.model_checkpoint_path)
             print("\n Previous CheckPoint : "+ckpt.model_checkpoint_path)
+        else:
+            return None
         #return session variable to the user to restore last session
         return sess
 
