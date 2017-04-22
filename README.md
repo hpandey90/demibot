@@ -6,9 +6,11 @@ A chatbot developed using sequence to sequence model is capable of predicting ne
 
 ## Language and Libraries
 
-- Python : 3.6
+- Python : 3.5.2
 - Tensorflow-GPU : 1.0.0
 - Nltk : 3.2.2
+- matplotlib : 2.0.0
+- numpy : 1.12.0
 
 ## Hardware Used
 
@@ -22,22 +24,28 @@ To create an agent that can have conversation like humans is one of the open are
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
-
-### Running
-
+Below are the things you need to do for playing with this model.
+### Prepare
+Download data
 ```
-If saved model is downloaded to '/ckpt' folder then run below:
-  python ui.py
-else
-  download saved model or train:
-  If train then:
-    python demiBot.py
-  else:
-    download model
+>> python getData.py
 ```
+Download Model
+```
+>> python getModel.py
+```
+### Chatting
+```
+>> python demiBot.py
+```
+### Training
+First get data and model then run following code :
+```
+>> python train.py
+```
+once training is done go to Chatting.
 
-### Contributors and Support
+## Contributors and Support
 
 - Ashish Katiyar - Grad Student at UF
 - Braj Gopal Maity - Grad Student at UF
