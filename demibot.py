@@ -91,4 +91,9 @@ def Enter_pressed(event):
     messages.config(state=DISABLED)
     return "break"
 
+#frame window with bind value
+frame = Frame(window)  # , width=300, height=300)
+input_field.bind("<Return>", Enter_pressed)
+frame.pack()
+
 window.mainloop()
