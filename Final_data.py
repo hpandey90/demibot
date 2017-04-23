@@ -59,7 +59,7 @@ def many_to_one_file():
    for fl in glob.glob('./data/raw_data/dialogs/**/*.txt'):
        split_n_create(fl)
 
-
+#converting line id in Cornell dataset into actual lines
 def get_id2line():
     lines = open('./data/raw_data/Cornell/movie_lines.txt', encoding='utf-8', errors ='ignore').read().split('\n')
     id2line = {}
