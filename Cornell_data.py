@@ -154,7 +154,7 @@ def filter_unk(qtokenized, atokenized, w2idx):
 
     return filtered_q, filtered_a
 
-
+#function used to add zero pads to sequence with length less than 25
 def zero_pad(qtokenized, atokenized, w2idx):
     # num of rows
     data_len = len(qtokenized)
