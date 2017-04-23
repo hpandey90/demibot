@@ -32,3 +32,14 @@ model = seq2seq.Seq2Seq(xseq_len=xseq_len,
 val_batch_gen = data_utils.rand_batch_gen(validX, validY, batch_size)
 test_batch_gen = data_utils.rand_batch_gen(testX, testY, batch_size)
 train_batch_gen = data_utils.rand_batch_gen(trainX, trainY, batch_size)
+
+#Check if it is a training session or not
+motive = input("\nIs it a Training Session ? y/n \n")
+if motive=='y' or motive=='Y':
+    #Training the model
+    sess = model.train(train_batch_gen, val_batch_gen)
+elif motive=='n' or motive=='N':
+    #Predicting the answers
+    #load the previously saved model
+    sess = model.restore_last_session()
+    #ask your question
