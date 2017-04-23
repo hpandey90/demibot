@@ -154,7 +154,7 @@ def filter_unk(qtokenized, atokenized, w2idx):
 
     return filtered_q, filtered_a
 
-
+#function used to add zero pads to sequence with length less than 25
 def zero_pad(qtokenized, atokenized, w2idx):
     # num of rows
     data_len = len(qtokenized)
@@ -173,6 +173,7 @@ def zero_pad(qtokenized, atokenized, w2idx):
         idx_a[i] = np.array(a_indices)
     return idx_q, idx_a
 
+#sub function of zeropad function
 def pad_seq(seq, lookup, maxlen):
     indices = []
     for word in seq:
@@ -182,6 +183,7 @@ def pad_seq(seq, lookup, maxlen):
             indices.append(lookup[UNK])
     return indices + [0]*(maxlen - len(seq))
 
+#main function which preprocesses the data
 def process_data():
 
     id2line = get_id2line()
