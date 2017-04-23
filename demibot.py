@@ -20,6 +20,9 @@ window.option_add('*font', 'Helvetica 11')
 
 #Menubar
 menubar = Menu(window)
+menubar.add_command(label="Reset", command=reset)
+menubar.add_command(label="About", command=about)
+menubar.add_command(label="Quit!", command=window.quit)
 window.config(menu=menubar)
 
 window.mainloop()
