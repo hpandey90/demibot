@@ -18,6 +18,16 @@ window.style.theme_use("clam")
 window.wm_title("demiBot")
 window.option_add('*font', 'Helvetica 11')
 
+#Menu Funtion Reset
+def reset():
+    messages.config(state=NORMAL)
+    messages.delete('1.0', END)
+    messages.config(state=DISABLED)
+
+#Menu Funtion About
+def about():
+    messagebox.showinfo("About demiBot", "demiBot is a chatter bot trained on movie dialogues from over 3000 movies with over 290,000 dialouges. \n\nApart from being a movie aficionado it also has a little bit of twitter in him.\n\n\t\tEnjoy chatting with him!!!")
+
 #Menubar
 menubar = Menu(window)
 menubar.add_command(label="Reset", command=reset)
