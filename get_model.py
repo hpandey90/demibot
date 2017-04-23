@@ -11,3 +11,5 @@ def reporthook(blocknum, blocksize, totalsize):
         sys.stderr.write(s)
         if readsofar >= totalsize: # near the end
             sys.stderr.write("\n")
+        else: # total size is unknown
+            sys.stderr.write("read %d\n" % (readsofar,))
