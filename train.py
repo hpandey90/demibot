@@ -43,3 +43,24 @@ elif motive=='n' or motive=='N':
     #load the previously saved model
     sess = model.restore_last_session()
     #ask your question
+    while True:
+        quest = input("\nask your question :")
+        quest = quest.lower()
+        quest = Final_data.filter_line(quest, Final_data.EN_WHITELIST)
+        que_tok = [w.strip() for w in quest.split(' ') if w]
+        #for q in zip(que_tok):
+        print(que_tok)
+        inp_idx = Final_data.pad_seq(que_tok,metadata['w2idx'],Final_data.limit['maxq'])
+        #for q in range(inp_idx):
+        #print(inp_idx)
+        inp_idx_arr = np.zeros([1, Final_data.limit['maxq']], dtype=np.int32)
+        inp_idx_arr[0] = np.array(inp_idx)
+        #print(inp_idx_arr.shape)
+        input_ = test_batch_gen.__next__()[0]
+        output = model.predict(sess, inp_idx_arr.T)
+
+        #replies = []
+        for ii, oi in zip(inp_idx_arr, output):
+            q = data_utils.decode(sequence=ii, lookup=metadata['idx2w'], separator=' ')
+            decoded = data_utils.decode(sequence=oi, lookup=metadata['idx2w'], separator=' ').split(' ')
+            print('q : [{0}]; a : [{1}]'.format(q, ' '.join(decoded)))
