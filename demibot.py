@@ -41,3 +41,7 @@ def Enter_pressed(event):
     print(que_tok)
     inp_idx = Final_data.pad_seq(que_tok,metadata['w2idx'],Final_data.limit['maxq'])
     #for q in range(inp_idx):
+    
+    #print(inp_idx)
+    inp_idx_arr = np.zeros([1, Final_data.limit['maxq']], dtype=np.int32)
+    inp_idx_arr[0] = np.array(inp_idx)
