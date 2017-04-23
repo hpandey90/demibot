@@ -27,3 +27,8 @@ model = seq2seq.Seq2Seq(xseq_len=xseq_len,
                                emb_dim=emb_dim,
                                num_layers=3
                                )
+
+#Batch generation
+val_batch_gen = data_utils.rand_batch_gen(validX, validY, batch_size)
+test_batch_gen = data_utils.rand_batch_gen(testX, testY, batch_size)
+train_batch_gen = data_utils.rand_batch_gen(trainX, trainY, batch_size)
