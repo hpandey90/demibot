@@ -37,7 +37,7 @@ def Enter_pressed(event):
     quest = Final_data.filter_line(quest, Final_data.EN_WHITELIST)
     que_tok = [w.strip() for w in quest.split(' ') if w]
     
-    for q in zip(que_tok):
+    #for q in zip(que_tok):
     print(que_tok)
     inp_idx = Final_data.pad_seq(que_tok,metadata['w2idx'],Final_data.limit['maxq'])
-    for q in range(inp_idx):
+    #for q in range(inp_idx):
