@@ -173,6 +173,7 @@ def zero_pad(qtokenized, atokenized, w2idx):
         idx_a[i] = np.array(a_indices)
     return idx_q, idx_a
 
+#sub function of zeropad function
 def pad_seq(seq, lookup, maxlen):
     indices = []
     for word in seq:
@@ -182,6 +183,7 @@ def pad_seq(seq, lookup, maxlen):
             indices.append(lookup[UNK])
     return indices + [0]*(maxlen - len(seq))
 
+#main function which preprocesses the data
 def process_data():
 
     id2line = get_id2line()
