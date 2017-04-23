@@ -1,5 +1,5 @@
 UNK = 'unk'
-VOCAB_SIZE = 8000
+VOCAB_SIZE = 12000
 limit = {
         'maxq' : 25,
         'minq' : 2,
@@ -63,14 +63,15 @@ def index_(tokenized_sentences, vocab_size):
 def filter_data(sequences):
     filtered_q, filtered_a = [], []
     raw_data_len = len(sequences)//2
-
+    print(len(sequences))
+    '''
     for i in range(0, len(sequences), 2):
         qlen, alen = len(sequences[i].split(' ')), len(sequences[i+1].split(' '))
         if qlen >= limit['minq'] and qlen <= limit['maxq']:
             if alen >= limit['mina'] and alen <= limit['maxa']:
                 filtered_q.append(sequences[i])
                 filtered_a.append(sequences[i+1])
-
+    '''
     # print the fraction of the original data, filtered
     filt_data_len = len(filtered_q)
     filtered = int((raw_data_len - filt_data_len)*100/raw_data_len)
