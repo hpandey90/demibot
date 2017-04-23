@@ -19,3 +19,7 @@ def Enter_pressed(event):
     messages.yview_moveto(messages.yview()[1])
     input_user.set('')
     print(quest)
+    
+    quest = quest.lower()
+    quest = Final_data.filter_line(quest, Final_data.EN_WHITELIST)
+    que_tok = [w.strip() for w in quest.split(' ') if w]
