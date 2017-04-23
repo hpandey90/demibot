@@ -18,6 +18,9 @@ window.style.theme_use("clam")
 window.wm_title("demiBot")
 window.option_add('*font', 'Helvetica 11')
 
+#Menubar
+menubar = Menu(window)
+window.config(menu=menubar)
 
 window.mainloop()
 
