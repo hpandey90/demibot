@@ -39,8 +39,14 @@ window.config(menu=menubar)
 messages = ScrolledText(window)
 messages.pack(fill=X,padx=10, pady=10)
 messages.config(state=DISABLED)
-
+messages.tag_configure('tag-left', justify='left')
+messages.tag_configure('tag-right', justify='right')
 UserFont = Font(family="Malgun Gothic Semilight", size=12)
+
+#Input Field For Typing
+input_user = StringVar()
+input_field = Entry(window, text=input_user)
+input_field.pack(side=BOTTOM, fill=X, padx=15, pady=15)
 
 def Enter_pressed(event):
     quest = input_field.get()
