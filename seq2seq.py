@@ -167,17 +167,7 @@ class Seq2Seq(object):
                 self.session = sess
                 return sess
 
-        #Ploting the graph once training completes
-        plt.plot(self.xAxis, self.yAxis)
-        plt.axis([1, i, 0, self.maxPerp])
-        plt.xlabel('Epochs')
-        plt.ylabel('Perplexity')
-        plt.title('Plot 1')
-        plt.grid(True)
-        plt.savefig("perplexity.png")
-        plt.show()
 
-    #funstion to restore trained session
     def restore_last_session(self):
         saver = tf.train.Saver()
         sess = tf.Session()
@@ -191,7 +181,6 @@ class Seq2Seq(object):
         #return session variable to the user to restore last session
         return sess
 
-    #function to generate output from decoder    
     def predict(self, sess, X):
         feed_dict = {self.enc_ip[t]: X[t] for t in range(self.xseq_len)}
         feed_dict[self.keep_prob] = 1.
