@@ -29,7 +29,7 @@ import pickle
 def get_file(filename):
     return open(filename,"a+", encoding='utf-8', errors='ignore')
 
-#function for reading imsdb dataset 
+#function for reading imsdb dataset
 def split_n_create(filename):
     lines = open(filename,encoding='utf-8').read().split('\n')[:-1]
     target = get_file(FILENAME)
@@ -54,7 +54,7 @@ def split_n_create(filename):
             counter = 0
         counter += 1
 
-
+#funtion to read files from imsdb
 def many_to_one_file():
    for fl in glob.glob('./data/raw_data/dialogs/**/*.txt'):
        split_n_create(fl)
