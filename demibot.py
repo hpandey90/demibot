@@ -35,9 +35,12 @@ menubar.add_command(label="About", command=about)
 menubar.add_command(label="Quit!", command=window.quit)
 window.config(menu=menubar)
 
-window.mainloop()
+#Message Box For Chat
+messages = ScrolledText(window)
+messages.pack(fill=X,padx=10, pady=10)
+messages.config(state=DISABLED)
 
-
+UserFont = Font(family="Malgun Gothic Semilight", size=12)
 
 def Enter_pressed(event):
     quest = input_field.get()
@@ -48,3 +51,5 @@ def Enter_pressed(event):
     messages.yview_moveto(messages.yview()[1])
     input_user.set('')
     print(quest)
+
+window.mainloop()
