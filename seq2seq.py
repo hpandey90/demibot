@@ -177,6 +177,7 @@ class Seq2Seq(object):
         plt.savefig("perplexity.png")
         plt.show()
 
+    #funstion to restore trained session    
     def restore_last_session(self):
         saver = tf.train.Saver()
         sess = tf.Session()
