@@ -17,3 +17,13 @@ batch_size = 32
 xvocab_size = len(metadata['idx2w'])
 yvocab_size = xvocab_size
 emb_dim = 512
+
+#Model created
+model = seq2seq.Seq2Seq(xseq_len=xseq_len,
+                               yseq_len=yseq_len,
+                               xvocab_size=xvocab_size,
+                               yvocab_size=yvocab_size,
+                               ckpt_path='ckpt/',
+                               emb_dim=emb_dim,
+                               num_layers=3
+                               )
