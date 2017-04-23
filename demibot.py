@@ -4,6 +4,14 @@ from ttk import *
 from tkinter.scrolledtext import ScrolledText
 from tkinter import messagebox
 
+import tensorflow as tf
+import numpy as np
+
+import seq2seq_wrapper
+# preprocessed data
+import Final_data
+import data_utils
+
 #Create a window frame
 window = Tk()
 #Set Icon
