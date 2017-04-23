@@ -57,3 +57,11 @@ def Enter_pressed(event):
         decoded = data_utils.decode(sequence=oi, lookup=metadata['idx2w'], separator=' ').split(' ')
         #if decoded.count('unk') == 0:
         #    if decoded not in replies:
+        print('q : [{0}]; a : [{1}]'.format(q, ' '.join(decoded)))
+        answ = ' '.join(decoded)
+
+    #messages.configure(font=demiFont)
+    messages.insert(INSERT, 'demiBot : \n%s\n' % answ, 'tag-right')
+    messages.yview_moveto(messages.yview()[1])
+    messages.config(state=DISABLED)
+    return "break"
