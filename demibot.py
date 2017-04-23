@@ -45,3 +45,15 @@ def Enter_pressed(event):
     #print(inp_idx)
     inp_idx_arr = np.zeros([1, Final_data.limit['maxq']], dtype=np.int32)
     inp_idx_arr[0] = np.array(inp_idx)
+    
+    #print(inp_idx_arr.shape)
+    input_ = test_batch_gen.__next__()[0]
+    output = model.predict(sess, inp_idx_arr.T)
+
+    #replies = []
+    answ = ''
+    for ii, oi in zip(inp_idx_arr, output):
+        q = data_utils.decode(sequence=ii, lookup=metadata['idx2w'], separator=' ')
+        decoded = data_utils.decode(sequence=oi, lookup=metadata['idx2w'], separator=' ').split(' ')
+        #if decoded.count('unk') == 0:
+        #    if decoded not in replies:
