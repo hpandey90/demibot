@@ -29,7 +29,7 @@ import pickle
 def get_file(filename):
     return open(filename,"a+", encoding='utf-8', errors='ignore')
 
-
+#function for reading imsdb dataset 
 def split_n_create(filename):
     lines = open(filename,encoding='utf-8').read().split('\n')[:-1]
     target = get_file(FILENAME)
