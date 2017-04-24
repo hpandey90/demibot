@@ -181,11 +181,13 @@ class Seq2Seq(object):
         #return session variable to the user to restore last session
         return sess
 
-    def predict(self, sess, X):
+    def predict(self, sess, X, no):
         feed_dict = {self.enc_ip[t]: X[t] for t in range(self.xseq_len)}
         feed_dict[self.keep_prob] = 1.
         dec_op_v = sess.run(self.decode_outputs_test, feed_dict)
         #swap timestamp dimension and batch size
         dec_op_v = np.array(dec_op_v).transpose([1,0,2])
+        L = np.argsort(-dec_op_v, axis=2)
         # return the index of item with highest probability
-        return np.argmax(dec_op_v, axis=2)
+        # np.argmax(dec_op_v, axis=2)
+        return L[:,:,no]
