@@ -1,5 +1,5 @@
 UNK = 'unk'
-VOCAB_SIZE = 7000
+VOCAB_SIZE = 17000
 limit = {
         'maxq' : 25,
         'minq' : 2,
@@ -10,11 +10,12 @@ limit = {
 
 EN_WHITELIST = '0123456789abcdefghijklmnopqrstuvwxyz ' # space included
 
-FILENAME = 'data/raw_data/Final/chat.txt'
+FILENAME = 'data/pro_data/chat.txt'
 
 
 import random
 import sys
+from shutil import copyfile
 
 import nltk
 import itertools
@@ -53,7 +54,10 @@ def split_n_create(filename):
                 s = ' '.join([s,line])
             counter = 0
         counter += 1
+    target.close()
 
+def getTwitterData():
+    copyfile('./data/raw_data/Twitter/chat.txt',FILENAME)
 
 def many_to_one_file():
    for fl in glob.glob('./data/raw_data/dialogs/**/*.txt'):
@@ -93,7 +97,7 @@ def gather_dataset(convs, id2line):
                 target.write(id2line[conv[i]])
                 #answers.append(id2line[conv[i]])
             target.write('\n')
-
+    target.close()
 
 # read lines from file returns [list of lines]
 def read_lines(filename):
@@ -225,7 +229,12 @@ def cornell_data_process():
     gather_dataset(convs,id2line)
 
 if __name__ == '__main__':
-    many_to_one_file()
+    try:
+        os.remove(FILENAME)
+    except OSError:
+        pass
+    #getTwitterData()
+    #many_to_one_file()
     cornell_data_process()
     process_data()
 
