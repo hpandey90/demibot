@@ -118,6 +118,7 @@ def Enter_pressed(event):
     #output = model.predict(sess, inp_idx_arr.T)
     while True:
         output = model.predict(sess, inp_idx_arr.T, no)
+        
         answ = ''
         for ii, oi in zip(inp_idx_arr, output):
             q = data_utils.decode(sequence=ii, lookup=metadata['idx2w'], separator=' ')
