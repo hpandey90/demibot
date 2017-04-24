@@ -7,7 +7,9 @@ from tkinter import messagebox
 import tensorflow as tf
 import numpy as np
 
-import seq2seq_wrapper
+import re
+
+import seq2seq
 # preprocessed data
 import Final_data
 import data_utils
@@ -25,7 +27,7 @@ yvocab_size = xvocab_size
 emb_dim = 1024
 
 #Model created
-model = seq2seq_wrapper.Seq2Seq(xseq_len=xseq_len,
+model = seq2seq.Seq2Seq(xseq_len=xseq_len,
                                yseq_len=yseq_len,
                                xvocab_size=xvocab_size,
                                yvocab_size=yvocab_size,
@@ -110,25 +112,33 @@ def Enter_pressed(event):
     #print(inp_idx)
     inp_idx_arr = np.zeros([1, Final_data.limit['maxq']], dtype=np.int32)
     inp_idx_arr[0] = np.array(inp_idx)
-
+    no = 0
     #print(inp_idx_arr.shape)
     input_ = test_batch_gen.__next__()[0]
-    output = model.predict(sess, inp_idx_arr.T)
-
-    #replies = []
-    answ = ''
-    for ii, oi in zip(inp_idx_arr, output):
-        q = data_utils.decode(sequence=ii, lookup=metadata['idx2w'], separator=' ')
-        decoded = data_utils.decode(sequence=oi, lookup=metadata['idx2w'], separator=' ').split(' ')
-        #if decoded.count('unk') == 0:
-        #    if decoded not in replies:
-        print('q : [{0}]; a : [{1}]'.format(q, ' '.join(decoded)))
-        answ = ' '.join(decoded)
-
-    #messages.configure(font=demiFont)
-    messages.insert(END, 'demiBot : \n%s\n' % answ, 'tag-right')
+    #output = model.predict(sess, inp_idx_arr.T)
+    while True:
+        output = model.predict(sess, inp_idx_arr.T, no)
+        answ = ''
+        for ii, oi in zip(inp_idx_arr, output):
+            q = data_utils.decode(sequence=ii, lookup=metadata['idx2w'], separator=' ')
+            decoded = data_utils.decode(sequence=oi, lookup=metadata['idx2w'], separator=' ').split(' ')
+            if decoded.count('unk') <= 2:
+                print('q : [{0}]; a : [{1}]'.format(q, ' '.join(decoded)))
+                answ = ' '.join(decoded)
+                answ = re.sub("\s\s+", " ", answ)
+                #messages.configure(font=demiFont)
+                messages.insert(END, 'demiBot : \n%s\n' % answ, 'tag-right')
+                messages.yview_moveto(messages.yview()[1])
+                messages.config(state=DISABLED)
+                return
+            else:
+                #print('else : q : [{0}]; a : [{1}]'.format(q, ' '.join(decoded)))
+                pass
+        no = no + 1
+    messages.insert(END, 'demiBot : \n%s\n Sorry! I am not able to answer that\n' , 'tag-right')
     messages.yview_moveto(messages.yview()[1])
     messages.config(state=DISABLED)
+
     return "break"
 
 #frame window with bind value
