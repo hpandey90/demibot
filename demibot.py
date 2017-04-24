@@ -87,13 +87,16 @@ input_field.pack(side=BOTTOM, fill=X, padx=15, pady=15)
 
 def Enter_pressed(event):
     quest = input_field.get()
-    messages.config(state=NORMAL)
-    messages.configure(font=UserFont)
+    if quest!='' :
+        messages.config(state=NORMAL)
+        messages.configure(font=UserFont)
 
-    messages.insert(INSERT, 'User : \n%s\n' % quest,'tag-left')
-    messages.yview_moveto(messages.yview()[1])
-    input_user.set('')
-    print(quest)
+        messages.insert(END, 'User : \n%s\n' % quest,'tag-left')
+        messages.yview_moveto(messages.yview()[1])
+        input_user.set('')
+        print(quest)
+    else:
+        return "break"
 
     quest = quest.lower()
     quest = Final_data.filter_line(quest, Final_data.EN_WHITELIST)
@@ -123,7 +126,7 @@ def Enter_pressed(event):
         answ = ' '.join(decoded)
 
     #messages.configure(font=demiFont)
-    messages.insert(INSERT, 'demiBot : \n%s\n' % answ, 'tag-right')
+    messages.insert(END, 'demiBot : \n%s\n' % answ, 'tag-right')
     messages.yview_moveto(messages.yview()[1])
     messages.config(state=DISABLED)
     return "break"

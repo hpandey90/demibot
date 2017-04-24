@@ -13,3 +13,10 @@ def reporthook(blocknum, blocksize, totalsize):
             sys.stderr.write("\n")
         else: # total size is unknown
             sys.stderr.write("read %d\n" % (readsofar,))
+
+urlretrieve('https://www.dropbox.com/s/2w2bsytkg4cib6y/dataset.zip?dl=1', 'data.zip', reporthook)
+
+print("Unzipping Data")
+zip_ref = zipfile.ZipFile('data.zip', 'r')
+zip_ref.extractall()
+zip_ref.close()
